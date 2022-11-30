@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 const router = express.Router();
@@ -31,17 +32,22 @@ router.post('/signin',async(req,res)=>{
         return res.status(422).send({error:'Must provide email and password'})
     }
     const user = await User.findOne({email:email})
+    console.log(user)
     if(!user){
         return res.status(422).send({error:'Email not found'})
     }
     try{
-        await user.comparePassword(password);
-        const token = jwt.sign(
-            {userId:user._id}, 
-            process.env.JWT_SECRET_KEY,
-            { expiresIn: "120s" }
-            )
-        res.send({token:token});
+        const match = await bcrypt.compare(password, user.password);
+        if(match) {
+            const token = jwt.sign(
+                {userId:user._id}, 
+                process.env.JWT_SECRET_KEY,
+                { expiresIn: "120s" }
+                )
+            res.send({token:token,});
+        }else{
+            return res.status(422).send({error:'Invalid password or email'})
+        }
     } catch(err){
         return res.status(422).send({error:'Invalid password or email'})
     }
