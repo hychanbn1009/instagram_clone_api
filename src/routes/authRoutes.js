@@ -17,9 +17,10 @@ router.post('/register', async(req,res,next)=>{
         // create jwt and encode
         const token = jwt.sign({userId:user._id},
             process.env.JWT_SECRET_KEY,
-            { expiresIn: "120s" }
+            // { expiresIn: "120s" }
             );
-        res.send({token:token});
+        delete user['password']
+        res.status(200).send({token:token,userId:user.id,username:user.username});
     } catch(err){
         // send invaild data to server
         return res.status(422).send(err.message)
@@ -42,9 +43,9 @@ router.post('/signin',async(req,res)=>{
             const token = jwt.sign(
                 {userId:user._id}, 
                 process.env.JWT_SECRET_KEY,
-                { expiresIn: "120s" }
+                // { expiresIn: "120s" }
                 )
-            res.send({token:token,});
+            res.status(200).send({token:token,userId:user.id,username:user.username});
         }else{
             return res.status(422).send({error:'Invalid password or email'})
         }

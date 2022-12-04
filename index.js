@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const authRoutes = require("./src/routes/authRoutes");
 const requireAuth = require("./src/middlewares/requireAuth");
+const postRoutes = require("./src/routes/postRoutes")
 require('dotenv').config()
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors());
 // all json information pass first then run request handler
 app.use(bodyParser.json());
 app.use(authRoutes);
+app.use(postRoutes);
 
 mongoose.connect("mongodb+srv://admin:passwordpassword@cluster0.c1gcm.mongodb.net/instagram_clone");
 
