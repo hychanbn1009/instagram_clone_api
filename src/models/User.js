@@ -20,7 +20,11 @@ const userSchema = new mongoose.Schema({
     password:{
         type: String,
         required: true
-    }
+    },
+    followers:[{
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+    }],
 });
 
 userSchema.pre('save',function(next){
