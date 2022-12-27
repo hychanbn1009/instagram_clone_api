@@ -20,11 +20,21 @@ const postSchema = new mongoose.Schema({
         default:0,
         required:true
     },
+    likedUser:[{
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+        unique: true
+    }],
     timestamp:{
         type: Date,
         default: Date.now,
         required:true
     },
+    comments:[{
+        type: mongoose.Types.ObjectId,
+        ref: "Comment",
+        unique: true
+    }]
 })
 
 const Post = mongoose.model('Post',postSchema);

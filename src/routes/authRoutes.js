@@ -19,8 +19,10 @@ router.post('/register', async(req,res,next)=>{
             process.env.JWT_SECRET_KEY,
             // { expiresIn: "120s" }
             );
-        delete user['password']
-        res.status(200).send({token:token,userId:user.id,username:user.username});
+        const userInfo = await User.findOne({email:email},{password:0})
+        .populate('followers', 'username')
+        .populate('following', 'username')
+        res.status(200).send({token:token,user:userInfo});
     } catch(err){
         // send invaild data to server
         return res.status(422).send(err.message)
@@ -45,7 +47,11 @@ router.post('/signin',async(req,res)=>{
                 process.env.JWT_SECRET_KEY,
                 // { expiresIn: "120s" }
                 )
-            res.status(200).send({token:token,userId:user.id,username:user.username});
+            // res.status(200).send({token:token,userId:user.id,username:user.username,followers:user.followers});
+            const userInfo = await User.findOne({email:email},{password:0})
+            .populate('followers', 'username')
+            .populate('following', 'username')
+            res.status(200).send({token:token,user:userInfo});
         }else{
             return res.status(422).send({error:'Invalid password or email'})
         }
@@ -53,5 +59,19 @@ router.post('/signin',async(req,res)=>{
         return res.status(422).send({error:'Invalid password or email'})
     }
 })
+
+router.post('/updateUser', async(req,res)=>{
+    const username=req.body.username
+    console.log(username)
+    try{
+        console.log("updateUser")
+        const userInfo = await User.find({"username":username},{password:0})
+        .populate('followers', 'username')
+        .populate('following', 'username')
+        res.status(200).send({user:userInfo});
+    } catch(err){
+        return res.status(422).send(err.message)
+    }
+});
 
 module.exports = router

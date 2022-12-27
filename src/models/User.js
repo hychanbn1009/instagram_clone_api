@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "User"
     }],
+    following:[{
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+    }],
 });
 
 userSchema.pre('save',function(next){
