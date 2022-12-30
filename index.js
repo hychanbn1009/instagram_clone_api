@@ -10,6 +10,7 @@ const requireAuth = require("./src/middlewares/requireAuth");
 const postRoutes = require("./src/routes/postRoutes");
 const accountRoutes = require("./src/routes/accountRoutes");
 const commentRoutes = require("./src/routes/commentRoutes");
+const searchRoutes = require("./src/routes/searchRoutes");
 require('dotenv').config()
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(authRoutes);
 app.use(postRoutes);
 app.use(accountRoutes);
 app.use(commentRoutes);
+app.use(searchRoutes);
 
 mongoose.connect("mongodb+srv://admin:passwordpassword@cluster0.c1gcm.mongodb.net/instagram_clone");
 

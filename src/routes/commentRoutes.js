@@ -11,10 +11,11 @@ router.use(requireAuth);
 
 router.post('/createComment', async(req,res)=>{
     const {authorId,postId,commentContent}=req.body
-    if(!username || !postId || !commentContent){
+    if(!authorId || !postId || !commentContent){
         return res.status(422).send({error:'You must provide comment details.'});
     }
     try{
+        console.log("create comment")
         const comment = new Comment({postId:postId,author:authorId,commentContent:commentContent})
         await comment.save();
         const targetPost = await Post.findById(postId)
