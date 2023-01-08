@@ -29,7 +29,7 @@ app.use(messageRoutes);
 const database = process.env.DB_URL;
 
 mongoose.set("strictQuery", false);
-mongoose.connect(database);
+mongoose.connect(database, {useNewUrlParser: true});
 
 mongoose.connection.on('connected',()=>{
     console.log('Connected to Mongo Instance')
