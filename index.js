@@ -28,6 +28,7 @@ app.use(messageRoutes);
 
 const database = process.env.DB_URL;
 
+mongoose.set("strictQuery", false);
 mongoose.connect(database);
 
 mongoose.connection.on('connected',()=>{
@@ -42,6 +43,6 @@ app.get("/",requireAuth, (req, res) => res.send("index"));
 
 app.set('port', (process.env.PORT || 5000));
 
-app.listen(app.get('port'), function() {
+const httpServer = app.listen(app.get('port'), function() {
     console.log("Node app is running at localhost:" + app.get('port'))
 });
