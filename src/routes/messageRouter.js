@@ -5,7 +5,7 @@ const Post = require('../models/Post');
 const User = require('../models/User');
 const Message = require("../models/Message");
 const { instrument } = require("@socket.io/admin-ui");
-const io = require ('socket.io')(4000,{
+const io = require ('socket.io')(process.env.PORT || 4000,{
     cors:{
         origin: "*"
     }

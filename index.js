@@ -26,7 +26,9 @@ app.use(commentRoutes);
 app.use(searchRoutes);
 app.use(messageRoutes);
 
-mongoose.connect("mongodb+srv://admin:passwordpassword@cluster0.c1gcm.mongodb.net/instagram_clone");
+const database = process.env.DB_URL;
+
+mongoose.connect(database);
 
 mongoose.connection.on('connected',()=>{
     console.log('Connected to Mongo Instance')
