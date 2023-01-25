@@ -18,7 +18,7 @@ router.post('/create',async (req,res)=>{
         return res.status(422).send({error:'You must provide content for the post.'});
     }
     try{
-        const newPost = new Post ({photoLink:photoLink,postContent:postContent,author:req.user._id,username:req.user.username});
+        const newPost = new Post ({photoLink:photoLink,postContent:postContent,author:req.user._id,username:req.username});
         await newPost.save();
         const posts = await Post.find().populate('author', 'username')
         let profilePosts =  await Post.find().populate('author', 'username')
